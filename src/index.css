@@ -77,4 +77,9 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    .view-container {
+        @apply box-border mx-auto;
+        @apply w-[1100px] max-2xl:w-[1100px] max-xl:w-[920px] max-lg:w-[680px] max-md:w-[440px] max-sm:w-full px-5;
+    }
 }
