@@ -8,9 +8,19 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { Check, Copy } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -23,6 +33,7 @@ const Main = () => {
     const [convertTo, setConvertTo] = useState<expressionType>("");
     const [inputExpression, setInputExpression] = useState<string>("");
     const [outputExpression, setOutputExpression] = useState<string>("");
+    const [outputCopied, setOutputCopied] = useState<boolean>(false);
 
     const handleConvertExpression = () => {
         if (convertFrom == "") {
@@ -58,6 +69,15 @@ const Main = () => {
                         );
                 }
         }
+    };
+
+    const handleCopyChange = () => {
+        setOutputCopied(true);
+        navigator.clipboard.writeText(outputExpression);
+        toast.info("Output copied to clipboard");
+        setTimeout(() => {
+            setOutputCopied(false);
+        }, 1500);
     };
 
     return (
@@ -116,16 +136,37 @@ const Main = () => {
                     </Button>
                 </div>
                 <div className='grow space-y-2'>
-                    <Label htmlFor='output-expression'>
-                        Output expression:
-                    </Label>
+                    <div className='flex justify-between items-center'>
+                        <Label htmlFor='output-expression'>
+                            Output expression:
+                        </Label>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button
+                                        aria-label='Copy output'
+                                        onClick={() => handleCopyChange()}
+                                        variant='outline'
+                                        size='icon'
+                                    >
+                                        {outputCopied ? (
+                                            <Check
+                                                size={18}
+                                                strokeWidth={1.5}
+                                            />
+                                        ) : (
+                                            <Copy size={18} strokeWidth={1.5} />
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>Copy output</TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
                     <Textarea
                         id='output-expression'
                         placeholder='Converted expression will be shown here.'
                         value={outputExpression}
-                        onChange={(event) =>
-                            setOutputExpression(event.target.value)
-                        }
                     />
                 </div>
             </div>
