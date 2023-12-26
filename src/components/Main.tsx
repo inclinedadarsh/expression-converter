@@ -81,94 +81,94 @@ const Main = () => {
     };
 
     return (
-        <main className='view-container space-y-6 mt-20'>
-            <div className='flex gap-8 justify-between flex-col md:flex-row'>
-                <div className='grow space-y-2'>
-                    <Label htmlFor='convert-from'>
-                        Convert from (Input expression type)
-                    </Label>
-                    <Select
-                        onValueChange={(value) =>
-                            setConvertFrom(value as expressionType)
-                        }
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder='Expression type' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value='infix'>Infix</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className='grow space-y-2'>
-                    <Label htmlFor='convert-to'>
-                        Convert to (Output expression type)
-                    </Label>
-                    <Select
-                        onValueChange={(value) =>
-                            setConvertTo(value as expressionType)
-                        }
-                    >
-                        <SelectTrigger>
-                            <SelectValue placeholder='Expression type' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value='infix'>Infix</SelectItem>
-                            <SelectItem value='prefix'>Prefix</SelectItem>
-                            <SelectItem value='postfix'>Postfix</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+        <main className='view-container grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 mt-20'>
+            <div className='space-y-2'>
+                <Label htmlFor='convert-from'>
+                    Convert from (Input expression type)
+                </Label>
+                <Select
+                    onValueChange={(value) =>
+                        setConvertFrom(value as expressionType)
+                    }
+                >
+                    <SelectTrigger>
+                        <SelectValue placeholder='Expression type' />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value='infix'>Infix</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
-            <div className='flex gap-8 justify-between flex-col md:flex-row'>
-                <div className='grow space-y-2'>
-                    <Label htmlFor='input-expression'>Input expression:</Label>
-                    <Textarea
-                        id='input-expression'
-                        placeholder='Enter your expression here.'
-                        value={inputExpression}
-                        onChange={(event) =>
-                            setInputExpression(event.target.value)
-                        }
-                    />
-                    <Button onClick={() => handleConvertExpression()}>
-                        Convert expression
-                    </Button>
+            <div className='space-y-2'>
+                <Label htmlFor='convert-to'>
+                    Convert to (Output expression type)
+                </Label>
+                <Select
+                    onValueChange={(value) =>
+                        setConvertTo(value as expressionType)
+                    }
+                >
+                    <SelectTrigger>
+                        <SelectValue placeholder='Expression type' />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value='infix'>Infix</SelectItem>
+                        <SelectItem value='prefix'>Prefix</SelectItem>
+                        <SelectItem value='postfix'>Postfix</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className=''>
+                <Label
+                    className='h-9 py-1.5 inline-block'
+                    htmlFor='input-expression'
+                >
+                    Input expression:
+                </Label>
+                <Textarea
+                    id='input-expression'
+                    placeholder='Enter your expression here.'
+                    className='mt-2'
+                    value={inputExpression}
+                    onChange={(event) => setInputExpression(event.target.value)}
+                />
+                <Button
+                    className='mt-5'
+                    onClick={() => handleConvertExpression()}
+                >
+                    Convert expression
+                </Button>
+            </div>
+            <div className='space-y-2'>
+                <div className='flex justify-between items-center'>
+                    <Label htmlFor='output-expression'>
+                        Output expression:
+                    </Label>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button
+                                    aria-label='Copy output'
+                                    onClick={() => handleCopyChange()}
+                                    variant='outline'
+                                    size='icon'
+                                >
+                                    {outputCopied ? (
+                                        <Check size={18} strokeWidth={1.5} />
+                                    ) : (
+                                        <Copy size={18} strokeWidth={1.5} />
+                                    )}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Copy output</TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
-                <div className='grow space-y-2'>
-                    <div className='flex justify-between items-center'>
-                        <Label htmlFor='output-expression'>
-                            Output expression:
-                        </Label>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <Button
-                                        aria-label='Copy output'
-                                        onClick={() => handleCopyChange()}
-                                        variant='outline'
-                                        size='icon'
-                                    >
-                                        {outputCopied ? (
-                                            <Check
-                                                size={18}
-                                                strokeWidth={1.5}
-                                            />
-                                        ) : (
-                                            <Copy size={18} strokeWidth={1.5} />
-                                        )}
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>Copy output</TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </div>
-                    <Textarea
-                        id='output-expression'
-                        placeholder='Converted expression will be shown here.'
-                        value={outputExpression}
-                    />
-                </div>
+                <Textarea
+                    id='output-expression'
+                    placeholder='Converted expression will be shown here.'
+                    value={outputExpression}
+                />
             </div>
         </main>
     );
